@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <form>
+      <input id='userIDInput' type="number" placeholder="Enter the ID">
+      <input id='button' type='submit'>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script>
+    var cachedJSON = [];
+
+    function placePostOnPage(inputData) {
+      cachedJSON.push(inputData);
+      $('body').append("<p>Post " + inputData.id + " has a title of ..." + inputData.title + "</p>");
+    }
+    function check(inputID) {
+      var objectInArray = [];
+      objectInArray = cachedJSON.filter(function(obj) {
+        return obj.id === Number(inputID);
+      });
+      return objectInArray;
+    }
+
+    $('#button').on('click', function(event) {
+      event.preventDefault();
+
+      var useridinput = $('#useridinput').val();
+      var object = check(userIDInput);
+
+      if(object[0] === undefined) {
+        $.ajax({
+          method: 'GET',
+          url: 'http://jsonplaceholder.typicode.com/posts/' + userIDInput,
+          success: placePostOnPage
+        })
+      } else {
+        $('body').append("<p>Post " + object[0].id + " has a title of ..." + object[0].title + "</p>");
+      }
+    })
+    </script>
+  </body>
+</html>

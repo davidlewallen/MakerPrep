@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  </head>
+  <body>
+    <div id="money">show me the money</div>
+    <div id='oprah'>Show me the oprah</div>
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script>
+    var toggleMoney = false;
+    var toggleOprah = false;
+    $('#money').on('click', function() {
+      if(toggleOprah) {
+        console.log("oprah")
+        $('#money').append("<img src=https://media.giphy.com/media/xThuW12NuMR6yJoLTy/giphy.gif />")
+        $('#oprah').toggle();
+        toggleMoney = true;
+        toggleOprah = false;
+      } else if(toggleMoney) {
+        console.log("money");
+        $('#money').toggle();
+        toggleMoney = false;
+      } else if(!toggleMoney) {
+        $('#money').append("<img src=https://media.giphy.com/media/xThuW12NuMR6yJoLTy/giphy.gif />")
+        toggleMoney = true;
+      }
+    });
+    $('#oprah').on('click', function() {
+      if(toggleMoney) {
+        $('#oprah').append("<img src=http://giphy.com/gifs/ITYVZCFb3WMVO/html5 />")
+        $('#money').toggle();
+        toggleOprah = true;
+        toggleMoney = false;
+      } else if(toggleOprah) {
+        $('#oprah').toggle();
+        toggleOprah = false;
+      } else if(!toggleOprah) {
+        $('#oprah').append("<img src=http://giphy.com/gifs/ITYVZCFb3WMVO/html5 />")
+        toggleOprah = true;
+      }
+    });
+    </script>
+  </body>
+</html>

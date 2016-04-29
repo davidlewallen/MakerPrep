@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <style>
+    .highlighted {
+      color: red;
+    }
+    </style>
+    <div id='magic'>
+      <img src='https://upload.wikimedia.org/wikipedia/commons/2/2e/Margaret_Hamilton.gif' />
+    </div>
+    <p id="target">This is target text</p>
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script>
+    $('#target').on('mouseover', function(event){
+      $('#target').addClass('highlighted')
+    });
+
+    $('#target').on('mouseleave', function() {
+      $('#target').removeClass('highlighted')
+    });
+
+    $('#magic').on('mouseover', function() {
+      $('#magic').toggle();
+    });
+    $('#magic').on('mouseleave', function() {
+      $('#magic').toggle();
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  </head>
+  <body>
+    <form>
+      <input id="name" `type="text" placeholder="Full Name" />
+      <input id="email" type="email" placeholder="Email Address" />
+      <input id="button" type="submit" />
+    </form>
+    <div id="money">show me the money</div>
+    <div id='oprah'>Show me the oprah</div>
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script>
+
+    $('#button').on('click', function () {
+      var name = $('#name').val();
+      $('form').html("<h2>Welcome to our webpage, " + name + "</h2>")
+    })
+    var root = 'http://jsonplaceholder.typicode.com';
+    $.ajax({
+      url: root + '/posts/1',
+      method: 'GET',
+      success: function(data) {
+        console.log(data);
+      }
+    });
+    $.ajax({
+      url: 'http://jsonplaceholder.typicode.com/photos/27',
+      method: 'GET',
+      success: function(data) {
+        console.log("data", data);
+      }
+    });
+    </script>
+  </body>
+</html>

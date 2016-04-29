@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <p>This is test text
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script>
+    var inputColor = prompt("What color would you like to see? ")
+
+    while(input === undefined) {
+      inputColor = prompt("What color would you like to see? ");
+    };
+    $('body').css('background', inputColor)
+    $('p').css('color', 'light 'inputColor)
+    $('p').css({'border-color':'dark ' inputColor, 'border-style':'solid'})
+    </script>
+  </body>
+</html>
