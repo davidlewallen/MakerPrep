@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <form>
+        <input type = "text" placeholder="Enter Zipcode/Street Name" id = "blah"></input>
+        <input type = "submit" id = "button" ></input>
+    </form>
+    <img id = "map" src = "https://maps.googleapis.com/maps/api/staticmap?center=austin&zoom=13&size=400x400&key=AIzaSyBgLWf4Gf3NVAUUeMUxvxAIJUgvEueCDcc">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script>
+        $("#button").on("click",function(e){
+            e.preventDefault();
+            var zip = $("#blah").val()
+            var marker = addressToArray();
+            $("#map").attr("src","https://maps.googleapis.com/maps/api/staticmap?center=" + zip + "&zoom=13&size=400x400&" + marker + "key=AIzaSyBgLWf4Gf3NVAUUeMUxvxAIJUgvEueCDcc")
+            $("#blah").val("")
+        })
+      function addressToArray() {
+        $.ajax({
+          url: 'https://data.austintexas.gov/resource/rkrg-9tez.json',
+          method: 'GET',
+        }).then(function(data) {
+            addressesToMarkers(data.map(function(element) {
+              return element.address.replace("BLOCK ", "").replace(" ", "%20");
+            }))});
+
+      }
+      function addressesToMarkers(array) {
+       var colors = ['blue','red','green','purple','white','orange','magenta'];
+       var retVal = "";
+
+       for(var i = 0;i<array.length;i++) {
+         retVal += 'marker=color:red%7C' + array[i] + '&';
+       }
+       console.log(retVal);
+       return retVal;
+      }
+
+      $.ajax({
+       url: 'https://data.austintexas.gov/resource/rkrg-9tez.json',
+       method: 'GET',
+       success: function(data) {
+         var addressArray = [];
+         addressArray.push(data.map(function(element) {
+           return element.address.replace("BLOCK ", "");
+         }));
+         console.log(addressArray);
+       }})
+
+
+    </script>
+  </body>
+<html>
