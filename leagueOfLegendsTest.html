@@ -60,23 +60,6 @@
       	}
       }
 
-      // $.ajax({
-      //   method: 'GET',
-      //   url: "https://na.api.pvp.net/api/lol/na/v1.2/champion?api_key=dbada37c-b6c0-43fe-bf1f-f1819507b3d7",
-      //   success: function(data) {
-      //     var championID = "";
-      //     championID += data.champions.map(function(champion) {
-      //       // $('body').append('<p>' + champion.id + '</p>')
-      //       return champion.id;
-      //     }) + ": "
-      //     var cssStyle = {
-      //       'width': '11em',
-      //       'border': '1px solid #000000',
-      //       'word-wrap': 'break-word'
-      //     }
-      //     $('body').append('<p>' + championID + '</p>').css(cssStyle)
-      //   }
-      // });
 
       $('#submitButton').on('click', function(event) {
         event.preventDefault();
@@ -103,7 +86,17 @@
 
           }
         })
+      });
 
+      $.ajax({
+        url: 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/chriskachii?api_key=dbada37c-b6c0-43fe-bf1f-f1819507b3d7',
+        method: 'GET',
+        success: function(data) {
+          console.log("--------");
+          console.log(data);
+          console.log("--------");
+        }
+      })
       $.ajax({
         url: "http://ddragon.leagueoflegends.com/cdn/6.9.1/data/en_US/champion.json",
         method: 'GET',
@@ -114,7 +107,6 @@
           console.log(dataIn);
         }
       });
-    });
     </script>
   </body>
 </html>
