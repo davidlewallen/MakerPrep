@@ -3,15 +3,31 @@
   <head>
   </head>
   <body>
-    <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
-    <script>
-      var API_KEY = "dbada37c-b6c0-43fe-bf1f-f1819507b3d7";
 
+    <div id='championInfo'>
+      <div style='float:left'>
+        <form>
+          <input id='userInput' type='text' placeholder='Enter Champion Name'>
+          <input id="submitButton" type='submit'>
+        </form>
+      </div>
+      <div style='float:left'>
+        <p id='championName'>Champion's Name:</p>
+        <p id='championBlurb'>Champion's Blurb:</p>
+        <p id='championTags'>Champion's Tags:</p>
+      </div>
+    </div>
+
+    <div id='summonerInfo'>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+
+    <script>
       function filter(collection, test) {
       	//Iterate over the collection, push all items that pass our callback test to a new array and return that new array
-
       	var newArray = [];
-
       	each(collection,function(x) {
       		if(test(x)) {
       			newArray.push(x);
@@ -31,30 +47,62 @@
       		}
       	}
       }
-      $.ajax({
-        method: 'GET',
-        url: "https://na.api.pvp.net/api/lol/na/v1.2/champion?api_key=dbada37c-b6c0-43fe-bf1f-f1819507b3d7",
-        success: function(data) {
-          var championID = "";
-          championID += data.champions.map(function(champion) {
-            // $('body').append('<p>' + champion.id + '</p>')
-            return champion.id;
-          }) + ": "
-          $('body').append('<p>' + championID + '</p>')
-        }
-      });
+
+      // $.ajax({
+      //   method: 'GET',
+      //   url: "https://na.api.pvp.net/api/lol/na/v1.2/champion?api_key=dbada37c-b6c0-43fe-bf1f-f1819507b3d7",
+      //   success: function(data) {
+      //     var championID = "";
+      //     championID += data.champions.map(function(champion) {
+      //       // $('body').append('<p>' + champion.id + '</p>')
+      //       return champion.id;
+      //     }) + ": "
+      //     var cssStyle = {
+      //       'width': '11em',
+      //       'border': '1px solid #000000',
+      //       'word-wrap': 'break-word'
+      //     }
+      //     $('body').append('<p>' + championID + '</p>').css(cssStyle)
+      //   }
+      // });
+
+      $('#submitButton').on('click', function(event) {
+        event.preventDefault();
+        //Takes lower case input and turns it to uppercase for first letter
+        var userInput = $('#userInput').val()
+        userInput = userInput.substring(0,1).toUpperCase() + userInput.substring(1,userInput.length);
+        //Resets all fields so multiple data isnt shown
+        $('#championName').text("Champion's Name: ")
+        $('#championBlurb').text("Champion's Blurb: ")
+        $('#championTags').text("Champion's Tags: ")
+        //Returns champion name, blurb, and tags
+        $.ajax({
+          url: 'http://ddragon.leagueoflegends.com/cdn/6.9.1/data/en_US/champion.json',
+          method: 'GET',
+          success: function(dataIn) {
+            var championObj = (filter(dataIn.data, function(champion) {
+              return champion.id === userInput;
+            }));
+            console.log(championObj);
+
+            $('#championName').append(championObj[0].name);
+            $('#championBlurb').append(championObj[0].blurb);
+            $('#championTags').append(championObj[0].tags.join(", "));
+
+          }
+        })
 
       $.ajax({
         url: "http://ddragon.leagueoflegends.com/cdn/6.9.1/data/en_US/champion.json",
         method: 'GET',
         success: function(dataIn) {
-          var inData = dataIn.data;
-          console.log(filter(inData, function(champion) {
-            return champion.key === "103";
-          }));
+          // console.log(filter(dataIn.data, function(champion) {
+          //   return champion.key === requestedCham;
+          // }));
           console.log(dataIn);
         }
       });
+    });
     </script>
   </body>
 </html>
