@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script>
+          // Changes XML to JSON
+      function xmlToJson(xml) {
+
+      	// Create the return object
+      	var obj = {};
+
+      	if (xml.nodeType == 1) { // element
+      		// do attributes
+      		if (xml.attributes.length > 0) {
+      		obj["@attributes"] = {};
+      			for (var j = 0; j < xml.attributes.length; j++) {
+      				var attribute = xml.attributes.item(j);
+      				obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+      			}
+      		}
+      	} else if (xml.nodeType == 3) { // text
+      		obj = xml.nodeValue;
+      	}
+
+      	// do children
+      	if (xml.hasChildNodes()) {
+      		for(var i = 0; i < xml.childNodes.length; i++) {
+      			var item = xml.childNodes.item(i);
+      			var nodeName = item.nodeName;
+      			if (typeof(obj[nodeName]) == "undefined") {
+      				obj[nodeName] = xmlToJson(item);
+      			} else {
+      				if (typeof(obj[nodeName].push) == "undefined") {
+      					var old = obj[nodeName];
+      					obj[nodeName] = [];
+      					obj[nodeName].push(old);
+      				}
+      				obj[nodeName].push(xmlToJson(item));
+      			}
+      		}
+      	}
+      	return obj;
+      };
+      var address = "1044%20Camino%20La%20Costa"
+    $.ajax({
+      method: 'GET',
+      url: 'http://production.shippingapis.com/ShippingAPI.dll?API=ZipCodeLookup&XML=<ZipCodeLookupRequest USERID="803DELTA7818"><Address ID="0"><FirmName>DHV, LLC.</FirmName><Address1></Address1><Address2>' + address + '</Address2><City>Austin</City><State>TX</State></Address></ZipCodeLookupRequest>',
+      success: function(data) {
+        console.time("ajax");
+        var zip = xmlToJson(data);
+        console.log(zip.ZipCodeLookupResponse.Address.Zip5['#text'])
+        console.timeEnd("Ajax");
+      }
+    })
+    </script>
+  </body>
+</html>
