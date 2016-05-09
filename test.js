@@ -35,6 +35,7 @@ function ipToInt32(ip){
 
   var results = ipArray.map(function(ipOctet) {
       return ipToBinary(ipOctet);
+  }).join("");
 
 }
 
