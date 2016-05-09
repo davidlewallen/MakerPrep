@@ -17,27 +17,25 @@ function dec2bin(decimal) {
 }
 
 function ipToInt32(ip){
-  var oneOctet = ip.substring(0,3);
-  var twoOctet = ip.substring(4,7);
-  var threeOctet = ip.substring(8,10);
-  var fourOctet = ip.substring(11);
+  var ipArray = ip.split(".");
 
-  //Convert decimal to 8 bit binary
-  //
-  var binary = function(input) {
+  var ipToBinary = function(input) {
     var results = "";
     for(var i = 7; i >= 0; i--) {
-      if(input <= Math.pow(2, i)) {
-          results +=
-      }
-    }
-    return results
-
-}
-
-function bin2dec(binary) {
-
-  for(var i = binary.length - 1; i > 0; i++) {
-    binary - Math.pow(2, i);
+      if(input >= Math.pow(2, i)) {
+        results += "1";
+        input = input - Math.pow(2,i);
+      } else {
+        results += "0";
+      };
+    };
+    return results;
   }
+
+
+  var results = ipArray.map(function(ipOctet) {
+      return ipToBinary(ipOctet);
+
 }
+
+128 64 32 16 8 4 2 1
